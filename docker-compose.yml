@@ -1,0 +1,13 @@
+services:
+  pb:
+    image: pocketbase.io:${PB_VERSION:-0.22.13}
+    build:
+      context: ./.docker/pocketbase/
+      args:
+        - PB_VERSION:${PB_VERSION:-0.22.13}
+    container_name: pb
+    ports:
+      - "${ADMIN_HTTP_PORT:-8080}:8080"
+    volumes:
+      - ./pb/pb_data:/pb/pb_data
+#      - ./pb/pb_hooks:/pb/pb_hooks

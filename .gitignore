@@ -1,0 +1,4 @@
+.env
+.vscode
+pb/pb_data/*
+!pb/pb_data/.gitkeep
