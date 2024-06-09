@@ -7,7 +7,25 @@ services:
         - PB_VERSION:${PB_VERSION:-0.22.13}
     container_name: pb
     ports:
-      - "${ADMIN_HTTP_PORT:-8080}:8080"
+      - "${PB_HTTP_PORT:-8080}:8080"
     volumes:
       - ./pb/pb_data:/pb/pb_data
 #      - ./pb/pb_hooks:/pb/pb_hooks
+#  nuxtjs:
+#    build:
+#      context: ./src/nuxtui-pg
+#      dockerfile: ../../.docker/node/Dockerfile
+#      args:
+#        - NODE_VERSION:${NODE_VERSION:-20.14.0}
+#        - NODE_ENV=${NODE_ENV:-development}
+#    environment:
+#      - NODE_ENV=${NODE_ENV:-development}
+#      - NUXT_PB_API=${NUXT_PB_API:-http://pb:8080}
+#      - NUXT_PB_USER=${NUXT_PB_USER}
+#      - NUXT_PB_PASS=${NUXT_PB_PASS}
+#      - NUXT_PUBLIC_PB_API=${NUXT_PUBLIC_PB_API:-http://localhost:8080}
+#      - NUXT_FD_AUTH_TOKEN=${NUXT_FD_AUTH_TOKEN}
+#    container_name: nuxtjs
+#    ports:
+#      - "${NODE_PORT:-3000}:3000"
+#    command: ["npx", "nuxi", "dev"]
