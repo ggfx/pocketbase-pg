@@ -12,14 +12,27 @@ export default defineEventHandler(async (event) => {
         });
         */
         const matches = result.matches;
-        const competition = await event.context.pb.collection('competitions').getFirstListItem('code="EC"');
         const pb_status = [];
+        var competition = null;
+        try {
+            competition = await event.context.pb.collection('competitions').getFirstListItem(`fd_id="${result.competition.id}"`);
+        } catch (err) {
+            console.dir(err);
+            let data = new FormData();
+            data.set('name', result.competition.name);
+            data.set('code', result.competition.code);
+            data.set('type', result.competition.type);
+            data.set('emblem', result.competition.emblem.split('/').pop());
+            data.set('fd_id', result.competition.id);
+            competition = await event.context.pb.collection('competitions').create(data);
+            pb_status.push({ fd_id: competition.fd_id, status: 'created', date: competition.created });
+            // console.log("New record:", newRecord);
+        }
         if (typeof matches == "object") {
             for(var match in matches) {
                 let fd_id = matches[match].id;
                 let home_tla = matches[match].homeTeam.tla;
                 let away_tla = matches[match].awayTeam.tla;
-                if (home_tla != null) continue;
                 let home_record = (home_tla === null) ? {id: null}: await event.context.pb.collection('teams').getFirstListItem(`code="${home_tla}"`);
                 let away_record = (away_tla === null) ? {id: null}: await event.context.pb.collection('teams').getFirstListItem(`code="${away_tla}"`);
                 let utc_date = new Date(Date.parse(matches[match].utcDate));
