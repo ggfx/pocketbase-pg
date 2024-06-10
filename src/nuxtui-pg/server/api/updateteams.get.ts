@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
                 data.set('name', matches[match].homeTeam.name);
                 data.set('code', tla);
                 if (matches[match].homeTeam.crest.length > 0) {
-                    data.set('crest', matches[match].homeTeam.crest.split('/').pop());
+                    data.set('crest', tla.toLowerCase() + '.' + matches[match].homeTeam.crest.split('.').pop());
                 }
                 // console.log(data);
                 try {
